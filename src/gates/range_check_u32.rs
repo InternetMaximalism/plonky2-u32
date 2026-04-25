@@ -196,7 +196,7 @@ impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F, D>
             .collect()
     }
 
-    fn run_once(&self, witness: &PartitionWitness<F>, out_buffer: &mut GeneratedValues<F>) {
+    fn run_once(&self, witness: &PartitionWitness<F>, out_buffer: &mut GeneratedValues<F>) -> anyhow::Result<()> {
         let num_input_limbs = self.gate.num_input_limbs;
         for i in 0..num_input_limbs {
             let sum_value = witness
@@ -218,7 +218,8 @@ impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F, D>
                 out_buffer.set_target(b, b_value);
             }
         }
-    }
+            Ok(())
+}
 
     fn serialize(&self, dst: &mut Vec<u8>, common_data: &CommonCircuitData<F, D>) -> IoResult<()> {
         self.gate.serialize(dst, common_data)?;

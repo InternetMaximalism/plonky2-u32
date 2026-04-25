@@ -328,7 +328,7 @@ impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F, D>
             .collect()
     }
 
-    fn run_once(&self, witness: &PartitionWitness<F>, out_buffer: &mut GeneratedValues<F>) {
+    fn run_once(&self, witness: &PartitionWitness<F>, out_buffer: &mut GeneratedValues<F>) -> anyhow::Result<()> {
         let local_wire = |column| Wire {
             row: self.row,
             column,
@@ -377,7 +377,8 @@ impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F, D>
             let wire = local_wire(self.gate.wire_ith_output_jth_limb(self.i, j));
             out_buffer.set_wire(wire, limb);
         }
-    }
+            Ok(())
+}
 }
 
 #[cfg(test)]

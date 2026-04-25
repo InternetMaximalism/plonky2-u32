@@ -436,7 +436,7 @@ impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F, D>
         ]
     }
 
-    fn run_once(&self, witness: &PartitionWitness<F>, out_buffer: &mut GeneratedValues<F>) {
+    fn run_once(&self, witness: &PartitionWitness<F>, out_buffer: &mut GeneratedValues<F>) -> anyhow::Result<()> {
         let local_wire = |column| Wire {
             row: self.row,
             column,
@@ -534,7 +534,8 @@ impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F, D>
                 msd_bits[i],
             );
         }
-    }
+            Ok(())
+}
 
     fn serialize(&self, dst: &mut Vec<u8>, common_data: &CommonCircuitData<F, D>) -> IoResult<()> {
         dst.write_usize(self.row)?;
